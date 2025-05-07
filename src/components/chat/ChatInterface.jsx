@@ -24,6 +24,11 @@ const ChatInterface = () => {
     scrollToBottom();
   }, [messages]);
 
+  const systemPrompt = {
+    role: 'system',
+    content: "You are an expert assistant in financial technology (fintech) and digital transformation. Always provide practical, real-world answers and examples related to these fields."
+  };
+
   const handleSend = async () => {
     if (!input.trim()) return;
     const userMessage = { role: 'user', content: input };
@@ -31,7 +36,11 @@ const ChatInterface = () => {
     setInput('');
     setIsLoading(true);
     try {
-      const response = await openAIService.chat([...messages, userMessage]);
+      const response = await openAIService.chat([
+        systemPrompt,
+        ...messages,
+        userMessage
+      ]);
       setMessages((prev) => [...prev, { role: 'assistant', content: response }]);
     } catch (error) {
       console.error('Chat error:', error);
@@ -90,6 +99,18 @@ const ChatInterface = () => {
     }
   };
 
+  const suggestedQuestions = [
+    "What is open banking?",
+    "How does blockchain impact fintech?",
+    "What are the latest trends in digital transformation?",
+    "How can AI improve financial services?",
+    "What is RegTech and why is it important?",
+    "How do digital wallets work?",
+    "What are the benefits of cloud banking?",
+    "How can fintech help with financial inclusion?",
+    "How is cybersecurity evolving in the fintech industry?"
+  ];
+
   return (
     <div className="flex flex-col h-[70vh] max-h-[700px] bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-800 overflow-hidden">
       {/* Header */}
@@ -102,6 +123,27 @@ const ChatInterface = () => {
           <FiSettings size={20} />
         </button>
       </div>
+
+      {/* Suggested Questions */}
+      {messages.length === 0 && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 px-4 pt-6 pb-2 justify-center">
+          {suggestedQuestions.map((q, i) => (
+            <div key={i} className="relative group">
+              <button
+                onClick={() => setInput(q)}
+                className="w-full h-16 flex items-center justify-center px-4 py-2 rounded-2xl bg-white text-fintech-primary dark:bg-fintech-dark dark:text-fintech-accent font-semibold shadow-md border border-fintech-primary dark:border-fintech-accent transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-fintech-accent focus:ring-offset-2 group-hover:scale-105 hover:scale-105 hover:bg-gradient-to-r hover:from-fintech-primary hover:to-fintech-accent hover:text-white active:bg-gradient-to-r active:from-fintech-primary active:to-fintech-accent active:text-white dark:hover:text-white"
+                style={{ minWidth: 200, maxWidth: 320, minHeight: 64, maxHeight: 64, overflow: 'hidden' }}
+              >
+                <span className="truncate w-full text-center">{q}</span>
+              </button>
+              {/* Tooltip */}
+              <div className="pointer-events-none absolute left-1/2 -translate-x-1/2 -top-2 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-200 w-max max-w-xs px-3 py-2 rounded-lg bg-gray-900 text-white text-sm shadow-lg whitespace-pre-line">
+                {q}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* Messages */}
       <div className="flex-1 overflow-y-auto px-4 py-6 space-y-4 bg-gradient-to-b from-white via-blue-50 to-white dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">

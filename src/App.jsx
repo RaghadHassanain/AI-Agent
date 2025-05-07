@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ChatProvider } from './context/ChatContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { AppProvider } from './context/AppContext';
 import ChatInterface from './components/ChatInterface';
 import APIKeyManager from './components/profile/APIKeyManager';
 import AudioUpload from './components/transcription/AudioUpload';
@@ -14,6 +15,8 @@ import Profile from './pages/Profile';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import { Toaster } from 'react-hot-toast';
 import { FiUser, FiSettings, FiLogOut } from 'react-icons/fi';
+import Landing from './pages/Landing';
+import Sidebar from './components/Sidebar';
 
 const Header = () => {
   const { currentUser, logout } = useAuth();
@@ -32,7 +35,7 @@ const Header = () => {
         <div className="flex items-center gap-2">
           <span className="inline-block w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 mr-2"></span>
           <h1 className="text-2xl font-extrabold bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent tracking-tight select-none">
-            RAGHAD'S AI AGENT
+            DigiFin
           </h1>
         </div>
         <div className="flex items-center gap-2 sm:gap-4">
@@ -75,44 +78,54 @@ function App() {
   return (
     <Router>
       <AuthProvider>
-        <ChatProvider>
-          <div className="min-h-screen bg-gradient-to-br from-gray-50 via-gray-50 to-gray-100 dark:from-blue-950 dark:via-gray-900 dark:to-gray-950 transition-colors duration-200 pt-20">
-            <Header />
-            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="py-6">
-                <Routes>
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/signup" element={<Signup />} />
-                  <Route
-                    path="/"
-                    element={
-                      <ProtectedRoute>
+        <AppProvider>
+          <ChatProvider>
+            <div className="min-h-screen bg-gradient-to-br from-gray-50 via-gray-50 to-gray-100 dark:from-blue-950 dark:via-gray-900 dark:to-gray-950 transition-colors duration-200 pt-20">
+              <Routes>
+                <Route path="/" element={<Landing />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route
+                  path="/chat"
+                  element={
+                    <ProtectedRoute>
+                      <Sidebar />
+                      <div className="pl-20">
+                        <Header />
                         <Chat />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/settings"
-                    element={
-                      <ProtectedRoute>
+                      </div>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/settings"
+                  element={
+                    <ProtectedRoute>
+                      <Sidebar />
+                      <div className="pl-20">
+                        <Header />
                         <Settings />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/profile"
-                    element={
-                      <ProtectedRoute>
+                      </div>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/profile"
+                  element={
+                    <ProtectedRoute>
+                      <Sidebar />
+                      <div className="pl-20">
+                        <Header />
                         <Profile />
-                      </ProtectedRoute>
-                    }
-                  />
-                </Routes>
-              </div>
-            </main>
-            <Toaster position="top-center" />
-          </div>
-        </ChatProvider>
+                      </div>
+                    </ProtectedRoute>
+                  }
+                />
+              </Routes>
+              <Toaster position="top-center" />
+            </div>
+          </ChatProvider>
+        </AppProvider>
       </AuthProvider>
     </Router>
   );

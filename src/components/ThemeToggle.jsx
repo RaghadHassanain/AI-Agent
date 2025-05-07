@@ -1,27 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useApp } from '../context/AppContext';
 import { SunIcon, MoonIcon } from '@heroicons/react/24/outline';
 
 const ThemeToggle = () => {
-  const [isDark, setIsDark] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return document.documentElement.classList.contains('dark');
-    }
-    return false;
-  });
-
-  useEffect(() => {
-    if (isDark) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
-  }, [isDark]);
+  const { state, setTheme } = useApp();
+  const isDark = state.theme === 'dark';
 
   return (
     <button
-      onClick={() => setIsDark(!isDark)}
+      onClick={() => setTheme(isDark ? 'light' : 'dark')}
       className="p-2 rounded-full transition-colors duration-200 hover:bg-gray-200 dark:hover:bg-dark-card"
       aria-label="Toggle theme"
     >

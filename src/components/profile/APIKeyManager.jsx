@@ -48,8 +48,8 @@ const APIKeyManager = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-dark-card rounded-lg shadow-sm p-6">
-      <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
+      <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
         OpenAI API Key
       </h2>
       
@@ -74,9 +74,9 @@ const APIKeyManager = () => {
             disabled={!isEditing}
             className={`w-full p-3 rounded-lg border ${
               isValid 
-                ? 'border-gray-300 dark:border-dark-border' 
+                ? 'border-gray-300 dark:border-gray-600' 
                 : 'border-red-500'
-            } bg-white dark:bg-dark-bg text-gray-900 dark:text-gray-100`}
+            } bg-white dark:bg-gray-700 text-gray-900 dark:text-white`}
           />
           {isEditing && (
             <button
@@ -118,7 +118,7 @@ const APIKeyManager = () => {
                   setIsEditing(false);
                   setApiKeyState(getAPIKey() || '');
                 }}
-                className="flex-1 bg-gray-100 dark:bg-dark-bg text-gray-700 dark:text-gray-300 py-2 px-4 rounded-lg hover:bg-gray-200 dark:hover:bg-dark-border transition-colors"
+                className="flex-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 py-2 px-4 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
               >
                 Cancel
               </button>
@@ -145,7 +145,7 @@ const APIKeyManager = () => {
           )}
           <button
             onClick={handleCopy}
-            className="flex-1 bg-gray-100 dark:bg-dark-bg text-gray-700 dark:text-gray-300 py-2 px-4 rounded-lg hover:bg-gray-200 dark:hover:bg-dark-border transition-colors"
+            className="flex-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 py-2 px-4 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
           >
             Copy Key
           </button>
