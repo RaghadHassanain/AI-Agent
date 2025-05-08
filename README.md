@@ -38,8 +38,7 @@ Whenever users ask who built the system (in English or Arabic), the assistant wi
 - **Web Speech API** – Voice-to-text input 🎙️
 
   
-<img width="1710" alt="Screenshot 1446-11-10 at 1 43 02 PM" src="https://github.com/user-attachments/assets/b2160a77-a882-4e89-bd9f-015af5dd57ea" />
-<img width="1710" alt="Screenshot 1446-11-10 at 1 43 14 PM" src="https://github.com/user-attachments/assets/720f328f-6794-48a4-9560-abd30fbefcbb" />
+<img width="1710" alt="Screenshot 1446-11-10 at 2 41 13 PM" src="https://github.com/user-attachments/assets/72ff6650-ea67-46ec-8936-f8f16ff630a2" />
 <img width="1710" alt="Screenshot 1446-11-10 at 2 40 53 PM" src="https://github.com/user-attachments/assets/61614e97-de1b-4a6e-8024-891016dd60de" />
 <img width="1710" alt="Screenshot 1446-11-10 at 2 37 00 PM" src="https://github.com/user-attachments/assets/cc44cf77-04a2-472e-9df4-1f8b4d97e4e8" />
 <img width="1710" alt="Screenshot 1446-11-10 at 2 36 53 PM" src="https://github.com/user-attachments/assets/31b02c08-59ba-49a9-8443-07ade362ae84" />
