@@ -199,6 +199,28 @@ const ChatInterface = () => {
     "How is cybersecurity evolving in the fintech industry?"
   ];
 
+  // Example of English content with Markdown formatting
+  const exampleContent = `# Main Title
+## Subtitle
+
+**Bold text** and *italic text*
+
+- Bullet point
+- Another item
+
+1. Numbered list
+2. Another item
+
+> Important quote
+
+\`simple code\`
+
+\`\`\`javascript
+const code = "block";
+\`\`\`
+
+[Link](https://example.com)`;
+
   return (
     <div className="flex flex-col h-[70vh] max-h-[700px] bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-800 overflow-hidden">
       {/* Header */}

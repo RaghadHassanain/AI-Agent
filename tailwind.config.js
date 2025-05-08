@@ -17,7 +17,10 @@ export default {
             light: '#ffffff',
             suggestion: '#e3f1f2', // custom light blue for suggested buttons
           },
-        }
+          'fintech-primary': '#2563eb',
+          'fintech-accent': '#3b82f6',
+          'fintech-dark': '#1e293b',
+        },
       },
     },
     plugins: [],
