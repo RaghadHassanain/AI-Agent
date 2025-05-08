@@ -20,14 +20,6 @@ It helps users stay informed with the **latest updates, news, and trends** in th
 
 ---
 
-## 🧠 Developer Credit Response
-
-Whenever users ask who built the system (in English or Arabic), the assistant will respond:
-
-> I was developed by the amazing **Raghad Hassanin**.
-
----
-
 ## 🛠️ Tech Stack
 
 - **React** – Frontend Framework ⚛️  
