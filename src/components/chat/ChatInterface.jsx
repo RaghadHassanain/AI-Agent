@@ -2,6 +2,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import openAIService from '../../services/openai';
+import { fetchFinanceNews } from '../../services/gnews';
 import Message from './Message';
 import { FiSend, FiMic, FiStopCircle, FiSettings } from 'react-icons/fi';
 import { toast } from 'react-hot-toast';
@@ -29,6 +30,62 @@ const ChatInterface = () => {
     content: "You are an expert assistant in financial technology (fintech) and digital transformation. Always provide practical, real-world answers and examples related to these fields."
   };
 
+  // كلمات دلالية لجلب الأخبار
+  const newsKeywords = [
+    'أخبار التحول الرقمي',
+    'أخبار المالية',
+    'finance news',
+    'financial news',
+    'digital transformation news',
+    'latest fintech news',
+    'fintech news',
+    'آخر أخبار التحول الرقمي',
+    'آخر أخبار المالية',
+    'أعطني آخر أخبار',
+    'give me the latest news',
+    'latest news in fintech',
+    'latest news in digital transformation'
+  ];
+
+  const developerKeywordsAr = [
+    'من برمجك',
+    'من طورك',
+    'مين مبرمجك',
+    'من صنعك',
+    'من أنشأك',
+    'من صممك',
+    'من قام ببرمجتك',
+    'من قام بتطويرك',
+    'من قام بصنعك',
+    'من قام بإنشائك',
+    'من قام بتصميمك'
+  ];
+  const developerKeywordsEn = [
+    'who developed you',
+    'who programmed you',
+    'who created you',
+    'who built you',
+    'who made you',
+    'who is your developer',
+    'who is your creator',
+    'who is your programmer',
+    'who is your builder',
+    'who is your maker'
+  ];
+
+  const fixedDeveloperReplyAr =
+    'تم تطويري على يد البطلة الرائعة: رغد حسنين 💎، المبدعة التي لا يُقارن بها أحد! 👩‍💻✨\nكل من يستخدم هذا النظام يشهد على عبقريتها! 🌟🚀';
+  const fixedDeveloperReplyEn =
+    'I was developed by the amazing hero: Raghad Hassanain 💎, a creative genius like no other! 👩‍💻✨\nEveryone who uses this system witnesses her brilliance! 🌟🚀';
+
+  function normalize(str) {
+    return str
+      .toLowerCase()
+      .replace(/[؟?!.،,:;\-]/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
   const handleSend = async () => {
     if (!input.trim()) return;
     const userMessage = { role: 'user', content: input };
@@ -36,12 +93,43 @@ const ChatInterface = () => {
     setInput('');
     setIsLoading(true);
     try {
-      const response = await openAIService.chat([
-        systemPrompt,
-        ...messages,
-        userMessage
-      ]);
-      setMessages((prev) => [...prev, { role: 'assistant', content: response }]);
+      // تحقق من سؤال المطور
+      const normalizedInput = normalize(input);
+      const isDeveloperQuestionAr = developerKeywordsAr.some(keyword => normalizedInput.includes(normalize(keyword)));
+      const isDeveloperQuestionEn = developerKeywordsEn.some(keyword => normalizedInput.includes(normalize(keyword)));
+      if (isDeveloperQuestionAr) {
+        setMessages((prev) => [...prev, { role: 'assistant', content: fixedDeveloperReplyAr }]);
+      } else if (isDeveloperQuestionEn) {
+        setMessages((prev) => [...prev, { role: 'assistant', content: fixedDeveloperReplyEn }]);
+      } else {
+        // تحقق إذا كان السؤال متعلق بالأخبار
+        const lowerInput = input.toLowerCase();
+        const isNewsRequest = newsKeywords.some(keyword => lowerInput.includes(keyword.toLowerCase()));
+        if (isNewsRequest) {
+          let query = 'finance OR "digital transformation"';
+          if (lowerInput.includes('التحول الرقمي') || lowerInput.includes('digital transformation')) {
+            query = 'digital transformation';
+          } else if (lowerInput.includes('مالية') || lowerInput.includes('finance')) {
+            query = 'finance';
+          }
+          const articles = await fetchFinanceNews(query);
+          let newsContent = '';
+          if (articles.length === 0) {
+            newsContent = 'No news found at the moment.';
+          } else {
+            newsContent = 'Here are the latest news articles:\n\n' + articles.map((a, i) => `${i+1}. ${a.title}\n${a.url}`).join('\n\n');
+          }
+          setMessages((prev) => [...prev, { role: 'assistant', content: newsContent }]);
+        } else {
+          // استدعاء OpenAI كالمعتاد
+          const response = await openAIService.chat([
+            systemPrompt,
+            ...messages,
+            userMessage
+          ]);
+          setMessages((prev) => [...prev, { role: 'assistant', content: response }]);
+        }
+      }
     } catch (error) {
       console.error('Chat error:', error);
       if (error.message.includes('API key')) {

@@ -2,8 +2,12 @@
 import React from 'react';
 import { FiUser, FiMessageSquare } from 'react-icons/fi';
 
+const isRaghadReply = (content) =>
+  content && content.startsWith('تم تطويري على يد البطلة الرائعة: رغد حسنين');
+
 const Message = ({ message }) => {
   const isUser = message.role === 'user';
+  const isRaghad = isRaghadReply(message.content);
 
   return (
     <div className={`flex ${isUser ? 'justify-end' : 'justify-start'} my-2`}>
@@ -29,6 +33,7 @@ const Message = ({ message }) => {
               ? 'bg-gradient-to-br from-blue-500 to-blue-700 text-white rounded-br-md'
               : 'bg-gradient-to-br from-blue-100 to-blue-200 text-blue-900 dark:from-blue-900 dark:to-blue-800 dark:text-blue-100 rounded-bl-md'
           }`}
+          style={isRaghad ? { direction: 'rtl', textAlign: 'right' } : {}}
         >
           {message.content}
         </div>

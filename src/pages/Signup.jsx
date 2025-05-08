@@ -35,7 +35,7 @@ const Signup = () => {
         navigate('/');
       }, 3000);
     } catch (error) {
-      setError('Failed to create an account. Please try again.');
+      setError(error.message);
     } finally {
       setLoading(false);
     }
