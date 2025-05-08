@@ -1,51 +1,39 @@
-# AI Chat & Transcription App
+# DigiFin – Smart Fintech & Digital Transformation Chatbot
 
-A React application that combines AI chat capabilities with voice transcription features.
+**AI-Agent** is an AI-powered web assistant tailored for individuals interested in **financial technology** and **digital transformation**.  
+It helps users stay informed with the **latest updates, news, and trends** in these sectors, while also being capable of answering **any general question** through integration with **OpenAI**.
 
-## Features
+🌐 Live demo: [digifin.netlify.app/chat](https://digifin.netlify.app/chat)  
+📁 Source code: [GitHub Repository](https://github.com/RaghadHassanain/AI-Agent)
 
-- Real-time chat with AI
-- Voice message transcription
-- Modern UI with Tailwind CSS
-- Message history
-- Voice recording capabilities
+---
 
-## Setup
+## 🚀 Features
 
-1. Clone the repository
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Create a `.env` file in the root directory and add your OpenAI API key:
-   ```
-   VITE_OPENAI_API_KEY=your_openai_api_key_here
-   ```
-4. Start the development server:
-   ```bash
-   npm run dev
-   ```
+- AI-driven chat powered by OpenAI's GPT-3.5 Turbo 🧠  
+- Email verification using Firebase 🔐  
+- Speech-to-text input using Web Speech API 🎤  
+- Real-time fintech and digital transformation news via GNews API 📰  
+- Developer credit response when asked: “Who developed you?” (supports English & Arabic) 👩‍💻  
+- Theme switcher for Light and Dark Mode to enhance visual experience 🌗  
+- Clean, responsive UI built with React and Tailwind CSS 📱  
 
-## Technologies Used
+---
 
-- React
-- Tailwind CSS
-- OpenAI API
-- Firebase (for message storage)
-- Web Speech API (for voice recording)
+## 🧠 Developer Credit Response
 
-## Project Structure
+Whenever users ask who built the system (in English or Arabic), the assistant will respond:
 
-- `/src/components` - React components
-- `/src/context` - Context providers
-- `/src/services` - API services
-- `/src/utils` - Utility functions
-- `/src/hooks` - Custom React hooks
+> I was developed by the amazing **Raghad Hassanin**.
 
-## Contributing
+---
 
-1. Fork the repository
-2. Create your feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a new Pull Request
+## 🛠️ Tech Stack
+
+- **React** – Frontend Framework ⚛️  
+- **Tailwind CSS** – Styling utility-first framework 🎨  
+- **Firebase** – Authentication and email verification 🔐  
+- **OpenAI API** – Chat capabilities 🧠  
+- **GNews API** – News feed integration 🗞️  
+- **Web Speech API** – Voice-to-text input 🎙️  
+
