@@ -1,63 +1,78 @@
 // src/components/shared/Layout.jsx
 import React, { useState } from "react";
-import { Link, Outlet, useLocation } from "react-router-dom";
-import { MoonIcon, SunIcon } from "@heroicons/react/24/outline";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { MoonIcon, SunIcon, Bars3Icon, ArrowLeftOnRectangleIcon } from "@heroicons/react/24/outline";
+import { FiUser } from 'react-icons/fi';
 import { useApp } from "../../context/AppContext";
+import { useAuth } from "../../context/AuthContext";
+import Sidebar from '../Sidebar';
 
 const Layout = () => {
   const { state, setTheme } = useApp();
   const { theme } = state;
-  const [collapsed, setCollapsed] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { currentUser, logout } = useAuth();
 
-  const toggleTheme = () => {
-    setTheme(theme === "light" ? "dark" : "light");
+  const handleLogout = async () => {
+    await logout();
+    navigate("/login");
   };
 
   const links = [
     { path: "/chat", label: "Chat" },
     { path: "/transcription", label: "Transcription" },
-    { path: "/profile", label: "Profile" },
+    { path: "/settings", label: "Settings" },
   ];
 
-  return (
-    <div className="flex h-screen transition-colors bg-light text-black dark:bg-dark dark:text-white">
-      {/* Sidebar */}
-      <aside
-        className={`flex flex-col justify-between bg-gray-100 dark:bg-gray-900 p-4 transition-all duration-300 ${
-          collapsed ? "w-16" : "w-64"
-        }`}
-      >
-        <nav className="space-y-4">
-          {links.map(({ path, label }) => (
-            <Link
-              key={path}
-              to={path}
-              className={`block px-2 py-2 rounded hover:bg-gray-300 dark:hover:bg-gray-700 ${
-                location.pathname === path ? "bg-gray-300 dark:bg-gray-700" : ""
-              }`}
-            >
-              {collapsed ? label.charAt(0) : label}
-            </Link>
-          ))}
-        </nav>
+  // اسم المستخدم أو اسم ثابت
+  const displayName = currentUser?.displayName || currentUser?.email || "Raghad Hasanein";
 
-        <div className="flex justify-between items-center">
-          <button onClick={toggleTheme}>
+  return (
+    <div className="h-screen bg-light text-black dark:bg-dark dark:text-white flex flex-col">
+      {/* Navbar */}
+      <header className="fixed top-0 left-0 w-full z-40 flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm">
+        {/* Left: Logo + App Name + Menu Icon */}
+        <div className="flex items-center gap-2">
+          <button
+            className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 focus:outline-none hover:opacity-90"
+            onClick={() => setSidebarOpen(true)}
+            aria-label="Open sidebar menu"
+          >
+            <Bars3Icon className="w-5 h-5 text-white" />
+          </button>
+          <span className="text-2xl font-extrabold bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent tracking-tight select-none">DigiFin</span>
+        </div>
+        {/* Right: Profile Icon + User Name + Theme Toggle */}
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => navigate("/profile")}
+            className="flex items-center gap-2 hover:underline select-none"
+            aria-label="Go to profile"
+          >
+            <FiUser className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+            <span className="font-extrabold text-base bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent tracking-tight">
+              {displayName}
+            </span>
+          </button>
+          <button onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none"
+          >
             {theme === "light" ? (
               <MoonIcon className="w-5 h-5" />
             ) : (
               <SunIcon className="w-5 h-5" />
             )}
           </button>
-          <button onClick={() => setCollapsed(!collapsed)} className="text-xs">
-            {collapsed ? ">>" : "<<"}
-          </button>
         </div>
-      </aside>
+      </header>
+
+      {/* Sidebar Drawer */}
+      <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto p-4">
+      <main className="flex-1 overflow-y-auto p-4 pt-20">
         <Outlet />
       </main>
     </div>

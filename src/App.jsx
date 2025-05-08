@@ -17,6 +17,8 @@ import { Toaster } from 'react-hot-toast';
 import { FiUser, FiSettings, FiLogOut } from 'react-icons/fi';
 import Landing from './pages/Landing';
 import Sidebar from './components/Sidebar';
+import Transcription from './pages/Transcription';
+import Layout from './components/shared/Layout';
 
 const Header = () => {
   const { currentUser, logout } = useAuth();
@@ -85,42 +87,12 @@ function App() {
                 <Route path="/" element={<Landing />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
-                <Route
-                  path="/chat"
-                  element={
-                    <ProtectedRoute>
-                      <Sidebar />
-                      <div className="pl-20">
-                        <Header />
-                        <Chat />
-                      </div>
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/settings"
-                  element={
-                    <ProtectedRoute>
-                      <Sidebar />
-                      <div className="pl-20">
-                        <Header />
-                        <Settings />
-                      </div>
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/profile"
-                  element={
-                    <ProtectedRoute>
-                      <Sidebar />
-                      <div className="pl-20">
-                        <Header />
-                        <Profile />
-                      </div>
-                    </ProtectedRoute>
-                  }
-                />
+                <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
+                  <Route path="/chat" element={<Chat />} />
+                  <Route path="/transcription" element={<Transcription />} />
+                  <Route path="/settings" element={<Settings />} />
+                  <Route path="/profile" element={<Profile />} />
+                </Route>
               </Routes>
               <Toaster position="top-center" />
             </div>
