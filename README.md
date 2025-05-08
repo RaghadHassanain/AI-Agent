@@ -10,7 +10,7 @@ It helps users stay informed with the **latest updates, news, and trends** in th
 
 ## 🚀 Features
 
-- AI-driven chat powered by OpenAI's GPT-3.5 Turbo 🧠  
+- AI-driven chat powered by OpenAI's GPT-4o 🧠  
 - Email verification using Firebase 🔐  
 - Speech-to-text input using Web Speech API 🎤  
 - Real-time fintech and digital transformation news via GNews API 📰  
